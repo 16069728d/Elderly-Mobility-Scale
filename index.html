@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elderly Mobility Scale (EMS) Calculator</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; max-width: 600px; margin: 20px auto; padding: 0 15px; background-color: #f6f8fa; }
+.card { background: white; border: 1px solid #d0d7de; border-radius: 6px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+h1 { font-size: 24px; margin-bottom: 5px; color: #24292f; }
+#live-score-display { font-size: 1.2rem; color: #0969da; margin-bottom: 20px; border-bottom: 2px solid #eaecef; padding-bottom: 10px; }
+.category { margin-bottom: 20px; }
+h3 { font-size: 16px; margin-bottom: 8px; color: #24292f; }
+label { display: block; background: #ffffff; border: 1px solid #d0d7de; padding: 10px; margin-bottom: 5px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+label:hover { background: #f3f4f6; }
+input[type="radio"] { margin-right: 10px; }
+.result-box { margin-top: 30px; padding: 15px; background: #dafbe1; border: 1px solid #4ac26b; border-radius: 6px; text-align: center; }
+.result-box h2 { margin: 0; color: #1a7f37; }
+</style>
+</head>
+<body>
+
+<div class="card">
+<h1>Elderly Mobility Scale (EMS)</h1>
+<h2 id="live-score-display">Current Total: 0 / 20</h2>
+<p>Select the appropriate option for each category:</p>
+
+<div class="category">
+<h3>1. Lying to Sitting</h3>
+<label><input type="radio" name="q1" value="2"> Independent (2)</label>
+<label><input type="radio" name="q1" value="1"> Needs help of 1 person (1)</label>
+<label><input type="radio" name="q1" value="0"> Needs help of 2+ people (0)</label>
+</div>
+
+<div class="category">
+<h3>2. Sitting to Lying</h3>
+<label><input type="radio" name="q2" value="2"> Independent (2)</label>
+<label><input type="radio" name="q2" value="1"> Needs help of 1 person (1)</label>
+<label><input type="radio" name="q2" value="0"> Needs help of 2+ people (0)</label>
+</div>
+
+<div class="category">
+<h3>3. Sitting to Standing</h3>
+<label><input type="radio" name="q3" value="3"> Independent in under 3 seconds (3)</label>
+<label><input type="radio" name="q3" value="2"> Independent in over 3 seconds (2)</label>
+<label><input type="radio" name="q3" value="1"> Needs help of 1 person (1)</label>
+<label><input type="radio" name="q3" value="0"> Needs help of 2+ people (0)</label>
+</div>
+
+<div class="category">
+<h3>4. Standing</h3>
+<label><input type="radio" name="q4" value="3"> Stands without support & able to reach (3)</label>
+<label><input type="radio" name="q4" value="2"> Stands without support but needs support to reach (2)</label>
+<label><input type="radio" name="q4" value="1"> Stands but needs support (1)</label>
+<label><input type="radio" name="q4" value="0"> Stands only with physical support of another person (0)</label>
+</div>
+
+<div class="category">
+<h3>5. Gait</h3>
+<label><input type="radio" name="q5" value="3"> Independent (with or without walking stick) (3)</label>
+<label><input type="radio" name="q5" value="2"> Independent with a frame (2)</label>
+<label><input type="radio" name="q5" value="1"> Mobile with walking aid but erratic/unsafe (1)</label>
+<label><input type="radio" name="q5" value="0"> Needs physical help to walk / constant supervision (0)</label>
+</div>
+
+<div class="category">
+<h3>6. Timed Walk (6 metres)</h3>
+<label><input type="radio" name="q6" value="3"> Under 15 seconds (3)</label>
+<label><input type="radio" name="q6" value="2"> 16 - 30 seconds (2)</label>
+<label><input type="radio" name="q6" value="1"> Over 30 seconds (1)</label>
+<label><input type="radio" name="q6" value="0"> Unable to cover 6m (0)</label>
+</div>
+
+<div class="category">
+<h3>7. Functional Reach</h3>
+<label><input type="radio" name="q7" value="4"> Over 20 cm (4)</label>
+<label><input type="radio" name="q7" value="2"> 10 - 20 cm (2)</label>
+<label><input type="radio" name="q7" value="0"> Under 10 cm (0)</label>
+</div>
+
+<div class="result-box">
+<h2>Total Score: <span id="final-score">0</span> / 20</h2>
+<p id="interpretation" style="font-weight: bold; margin-top: 10px;"></p>
+</div>
+</div>
+
+<script>
+const radioButtons = document.querySelectorAll('input[type="radio"]');
+const displayTop = document.getElementById('live-score-display');
+const displayBottom = document.getElementById('final-score');
+const interpretation = document.getElementById('interpretation');
+
+function calculateScore() {
+let total = 0;
+radioButtons.forEach(radio => {
+if (radio.checked) {
+total += parseInt(radio.value);
+}
+});
+
+// Update displays
+displayTop.innerText = "Current Total: " + total + " / 20";
+displayBottom.innerText = total;
+
+// Add interpretation
+if (total >= 14) {
+interpretation.innerText = "High Score: Independent in basic mobility";
+interpretation.style.color = "#1a7f37";
+} else if (total >= 10) {
+interpretation.innerText = "Borderline: Requires some help/supervision";
+interpretation.style.color = "#9a6700";
+} else {
+interpretation.innerText = "Low Score: High risk, requires significant help";
+interpretation.style.color = "#cf222e";
+}
+}
+
+// Attach listener to every radio button
+radioButtons.forEach(radio => {
+radio.addEventListener('change', calculateScore);
+});
+</script>
+
+</body>
+</html>
+
